@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 
 
 require('dotenv').config();
+const CustomerTable = require('./Modules/GuestTable');
+CustomerTable();
+
 
 PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
