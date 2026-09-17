@@ -8,10 +8,16 @@ require('dotenv').config();
 const GuestTable = require('./Modules/GuestTable');
 const RoomTable = require('./Modules/RoomTable');
 const BookingTable = require('./Modules/BookingTable');
+const GuestExpensesTable = require('./Modules/GuestExpensesTable');
+const PaymentTable = require('./Modules/PaymentTable');
+
+
 
 GuestTable();
 RoomTable();
 BookingTable();
+GuestExpensesTable();
+PaymentTable();
 
 
 PORT = process.env.PORT || 3000;

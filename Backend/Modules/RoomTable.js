@@ -10,7 +10,7 @@ const RoomTable = () => {
 
     db.query(sql, (err) => {
         if (err) {
-            console.log("Error Occur while Creating RoomTable", err);
+            console.log("Error Occur while Creating RoomTable", err.message);
             return;
         }
         console.log("RoomTable Created Sucessfully");

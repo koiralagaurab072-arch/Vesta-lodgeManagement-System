@@ -11,7 +11,7 @@ Address VARCHAR(50)
     )`;
     db.query(sql, (err) => {
         if (err) {
-            console.log("Error Occur while Creating CustomerTable", err);
+            console.log("Error Occur while Creating CustomerTable", err.message);
             return;
         }
         console.log('GuestTable Created Sucessfully')
