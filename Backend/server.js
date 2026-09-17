@@ -6,7 +6,12 @@ const bodyParser = require('body-parser');
 
 require('dotenv').config();
 const GuestTable = require('./Modules/GuestTable');
+const RoomTable = require('./Modules/RoomTable');
+const BookingTable = require('./Modules/BookingTable');
+
 GuestTable();
+RoomTable();
+BookingTable();
 
 
 PORT = process.env.PORT || 3000;

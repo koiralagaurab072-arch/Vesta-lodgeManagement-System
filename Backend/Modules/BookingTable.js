@@ -1,23 +1,23 @@
 const db = require('../db');
 
 const BookingTable = () => {
-    const sql = `CREATE TABLE IF NOT EXIST Booking(
-    Booking_id INT PRIMARY KEY Auto_INCREMENT,
-    Guest_id INT UNIQUE,
-    Room_id INT,
-    CheakINDate Date,
-    CheakOut Date,
-
-    FOREIGN KEY (Guest_id) REFERENCES Guest(Guest_id);
-    FOREIGN KEY (Booking_id) REFRENCES Booking(Booking_id);
+    const sql = `CREATE TABLE IF NOT EXISTS Booking(
+        Booking_Id INT PRIMARY KEY AUTO_INCREMENT,
+        Guest_Id INT,
+        Room_Id INT,
+        CheckInDate DATE,
+        CheckOutDate DATE,
+        FOREIGN KEY (Guest_Id) REFERENCES Guest(Guest_Id),
+        FOREIGN KEY (Room_Id) REFERENCES Room(Room_Id)
     )`;
 
     db.query(sql, (err) => {
         if (err) {
-            console.log("Error occur while creating BookingTable ");
+            console.log("Error occurred while creating BookingTable:", err.message);
             return;
         }
-        console.log('GuestTable Created Sucessfully');
-    })
+        console.log('BookingTable Created Successfully');
+    });
 }
+
 module.exports = BookingTable;
