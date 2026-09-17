@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 
 
 require('dotenv').config();
-const CustomerTable = require('./Modules/GuestTable');
-CustomerTable();
+const GuestTable = require('./Modules/GuestTable');
+GuestTable();
 
 
 PORT = process.env.PORT || 3000;

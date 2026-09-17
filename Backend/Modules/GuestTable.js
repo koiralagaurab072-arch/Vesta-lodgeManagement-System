@@ -9,8 +9,6 @@ Identity_NO Varchar(50),
 IdType VARCHAR(50),
 Address VARCHAR(50) 
     )`;
-
-
     db.query(sql, (err) => {
         if (err) {
             console.log("Error Occur while Creating CustomerTable", err);
