@@ -3,7 +3,7 @@ const db = require('../db');
 const RoomTable = () => {
     const sql = `CREATE TABLE IF NOT EXISTS Room(
     Room_Id INT PRIMARY KEY AUTO_INCREMENT,
-    Room_NO INT NOT NULL,
+    Room_NO INT NOT NULL UNIQUE,
     Room_Price INT,
     Room_Type VARCHAR(50)
     )`;
