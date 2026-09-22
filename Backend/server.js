@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const db = require('./db');
 const bodyParser = require('body-parser');
-
+app.use(bodyParser.json());
 
 require('dotenv').config();
 const GuestTable = require('./Modules/GuestTable');
@@ -24,9 +24,19 @@ PaymentTable();
 categoryTable();
 
 
-PORT = process.env.PORT || 3000;
-app.use(bodyParser.json());
+//routers
+const roomRoutes = require('./routes/roomRoutes');
+const GuestRoutes = require('./routes/GuestRoutes');
 
+
+app.use('/room', roomRoutes);
+app.use('/guest', GuestRoutes);
+
+
+
+
+
+PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send('Welcome to Lodge managemant System')
 });
