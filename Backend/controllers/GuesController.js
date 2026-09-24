@@ -9,6 +9,14 @@ const PostGuestInfo = async (req, res) => {
                 Guest: null
             });
         }
+        if (ContactNo.length < 10) {
+            console.log('invalid contact no');
+            return res.status(422).json({
+                message: "invalid phone number",
+                Guest: null
+            })
+        }
+
         const values = [
             Full_Name, ContactNo, Identity_NO, IdType, Address
         ]
@@ -76,6 +84,6 @@ const GetSingleGuest = async (req, res) => {
     }
 }
 
-module.exports={PostGuestInfo,GetAllGuest,GetSingleGuest}
+module.exports = { PostGuestInfo, GetAllGuest, GetSingleGuest }
 
 
