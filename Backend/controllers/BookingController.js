@@ -2,7 +2,6 @@ const db = require('../db');
 
 const PostActiveBooking = async (req, res) => {
     const { Guest_Id, Room_Id } = req.body;
-
     if (!Guest_Id || !Room_Id) {
         return res.status(400).json({
             message: "Guest_Id and Room_Id are required",
@@ -67,7 +66,6 @@ const PostActiveBooking = async (req, res) => {
 };
 
 const db = require('../db');
-
 const GetActiveBookings = async (req, res) => {
     try {
         const sql = `
@@ -84,7 +82,7 @@ const GetActiveBookings = async (req, res) => {
         `;
         const [bookings] = await db.promise().query(sql);
         if (bookings.length === 0) {
-            return res.status(200).json({
+            return res.status(404).json({
                 message: "No active bookings found",
                 bookings: null
             });
@@ -103,31 +101,48 @@ const GetActiveBookings = async (req, res) => {
         });
     }
 }
-
 //GetSingleActiveBooking
 const GetSingleActiveBooking = async (req, res) => {
+    const { Booking_Id } = req.params;
+    if (!Booking_Id) {
+        return res.status(400).json({ message: "Booking_Id is required " });
+    }
     try {
-        const { bookingId } = req.params;
-        const sql = `SELECT * FROM activebooking WHERE booking_Id=?`
-        const value = [bookingId]
-        const [GetSingleActiveBooking] = await db.promise().query(sql, [value]);
-        if (GetSingleActiveBooking.length === 0) {
-            console.log('Booking not found');
-            res.status(404).json({
-                message: `Bookingid ${bookingId} not found`,
-                GetSingleActiveBooking: GetSingleActiveBooking
+        const sql = `
+            SELECT 
+                ab.Booking_Id, 
+                g.Full_Name, 
+                g.ContactNo,
+                r.RoomNumber, 
+                ab.CheckInDate
+            FROM activebooking ab
+            INNER JOIN Guest g ON ab.Guest_Id = g.Guest_Id
+            INNER JOIN Room r ON ab.Room_Id = r.Room_Id
+            WHERE ab.Booking_Id = ?
+        `;
+        const [bookingRecords] = await db.promise().query(sql, [Booking_Id]);
+
+        if (bookingRecords.length === 0) {
+            return res.status(404).json({
+                message: `Active booking with ID ${Booking_Id} not found`,
+                data: null
             });
         }
-    } catch (err) {
-        console.error("Database or Internal Server error", err.message);
-        res.status(500).json({
-            message: `Failed to get activebooking `,
-            Room: null
+        return res.status(200).json({
+            message: "Active booking retrieved successfully",
+            data: bookingRecords[0]
         });
 
+    } catch (err) {
+        console.error('Error fetching single active booking:', err.message);
+        return res.status(500).json({
+            message: "Internal server error while fetching the booking",
+            Error: err.message
+        });
     }
 }
 
+
 module.exports = {
-    PostActiveBooking, GetActiveBookings
+    PostActiveBooking, GetActiveBookings,GetSingleActiveBooking
 };

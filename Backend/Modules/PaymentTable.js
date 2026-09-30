@@ -5,7 +5,7 @@ const PaymentTable = () => {
     Payment_Id INT PRIMARY KEY AUTO_INCREMENT,
     Booking_Id INT NOT NULL,
     Amount DECIMAL(10,2) NOT NULL,
-    PaymentDate DATE,
+    PaymentDate DATE DEFAULT CURRENT_TIMESTAMP,
     PaymentMethod ENUM(
         'Cash',
         'Credit Card',

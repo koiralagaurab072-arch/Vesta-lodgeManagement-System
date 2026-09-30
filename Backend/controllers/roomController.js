@@ -85,4 +85,63 @@ const GetSingleRoom = async (req, res) => {
     }
 };
 
-module.exports = { CreateRoom, GetAllRoom, GetSingleRoom };
+//  Update room
+const UpdateRoom = async (req, res) => {
+    const { id } = req.params;
+    const { Room_NO, Room_Price, Room_Type, Room_Status } = req.body;
+    const sql = `
+        UPDATE rooms 
+        SET Room_NO = ?,Room_Price=?,Room_Type= ?, Room_Status = ? 
+        WHERE id =?
+    `;
+
+    try {
+        const [UpdatedRoom] = await db.promise().query(sql, [Room_NO, Room_Price, Room_Type, Room_Status, id])
+        if (UpdatedRoom.length === 0) {
+            console.log("enter at least one data");
+            return res.status(400).json({
+                message: "Enter at least one data",
+                error: err.message,
+                UpdateRoom: UpdateRoom
+            })
+        }
+    } catch (err) {
+        console.error('Internal server error', err);
+
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({
+                message: 'provide the valid data',
+                error: err.message
+            });
+        }
+        res.status(500).json({
+            message: "Internal server error",
+            error: err.message
+        });
+    }
+}
+
+//delete room 
+const DeleteRoom = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const sql = `DELETE From Room  WHERE id=?`;
+        const [DeleteRoom] = await db.promise().query(sql, [id]);
+        if (DeleteRoom.affectedRows === 0) {
+            return res.status(404).json({
+                message: 'room not found',
+
+            })
+        }
+    } catch (err) {
+        console.log("internal server error");
+        return res.status(500).json({
+            message: "internal server error ",
+            error: err.message
+        })
+    }
+}
+
+
+module.exports = { CreateRoom, GetAllRoom, GetSingleRoom, UpdateRoom,DeleteRoom };
