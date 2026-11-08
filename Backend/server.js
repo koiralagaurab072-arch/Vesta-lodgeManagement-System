@@ -11,6 +11,7 @@ const ActiveBookingTable = require('./Modules/ActiveBookingTable');
 const GuestExpensesTable = require('./Modules/GuestExpensesTable');
 const PaymentTable = require('./Modules/PaymentTable');
 const categoryTable = require('./Modules/inventory/categoryTable')
+const HotelExpenses = require('./Modules/HotelExpenses')
 
 
 //room Management
@@ -19,6 +20,7 @@ RoomTable();
 ActiveBookingTable();
 GuestExpensesTable();
 PaymentTable();
+HotelExpenses();
 
 //inventory
 categoryTable();
@@ -27,11 +29,18 @@ categoryTable();
 //routers
 const roomRoutes = require('./routes/room.Routes');
 const GuestRoutes = require('./routes/Guest.Routes');
-const ActiveBookingRoutes=require('./routes/ActiveBooking.Routes');
+const ActiveBookingRoutes = require('./routes/ActiveBooking.Routes');
+const GuestPayment = require('./routes/GuestPayemt.Routes');
+const GuestExpenses = require('./routes/GuestExpensess.Routes');
+const hotelExpenses=require('./routes/hotelExpenses.route');
+
 
 app.use('/room', roomRoutes);
 app.use('/guest', GuestRoutes);
-app.use('/activeBooking',ActiveBookingRoutes);
+app.use('/activeBooking', ActiveBookingRoutes);
+app.use('/guestPayment', GuestPayment);
+app.use('/guestExpenses', GuestExpenses);
+app.use('/hotelExpensess',hotelExpenses);
 
 
 
@@ -41,6 +50,6 @@ app.get('/', (req, res) => {
     res.send('Welcome to Lodge managemant System')
 });
 
-app.listen(PORT, () => {
-    console.log(`server is running on http://localhost:${PORT}`);
+app.listen(3000, () => {
+    console.log(`server is running on http://localhost:3000`);
 })

@@ -4,6 +4,6 @@ const { PostActiveBooking, GetActiveBookings,GetSingleActiveBooking}=require("..
 
 router.post("/",PostActiveBooking);
 router.get("/",GetSingleActiveBooking);
-router.get("/",GetActiveBookings);
+router.get("/:Booking_Id",GetActiveBookings);
 
 module.exports=router;

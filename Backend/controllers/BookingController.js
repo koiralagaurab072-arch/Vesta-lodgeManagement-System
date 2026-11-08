@@ -21,7 +21,7 @@ const PostActiveBooking = async (req, res) => {
                 ActiveBooking: null
             });
         }
-        if (rooms[0].Room_Status === 'occupied') {
+        if (rooms[0].Room_Status === 'Occupied') {
             await conn.rollback();
             return res.status(409).json({
                 message: "Room is already occupied",
@@ -65,14 +65,13 @@ const PostActiveBooking = async (req, res) => {
     }
 };
 
-const db = require('../db');
 const GetActiveBookings = async (req, res) => {
     try {
         const sql = `
             SELECT 
                 ab.Booking_Id, 
                 g.Full_Name, 
-                r.RoomNumber,
+                r.Room_NO,
                 g.ContactNo, 
                 ab.CheckInDate
             FROM activebooking ab
@@ -113,7 +112,7 @@ const GetSingleActiveBooking = async (req, res) => {
                 ab.Booking_Id, 
                 g.Full_Name, 
                 g.ContactNo,
-                r.RoomNumber, 
+                r.Room_NO, 
                 ab.CheckInDate
             FROM activebooking ab
             INNER JOIN Guest g ON ab.Guest_Id = g.Guest_Id
@@ -141,8 +140,6 @@ const GetSingleActiveBooking = async (req, res) => {
         });
     }
 }
-
-
 module.exports = {
     PostActiveBooking, GetActiveBookings,GetSingleActiveBooking
 };
