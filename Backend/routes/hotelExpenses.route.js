@@ -6,9 +6,9 @@ const {     GetAllHotelExpenses,
     UpdateHotelExpense,
     DeleteHotelExpense }=require('./../controllers/hootelExpenses');
 
-    router.post('/',GetAllHotelExpenses);
-    router.get('/',PostHotelExpenses);
-    router.put('/',UpdateHotelExpense);
-    router.delete('/',DeleteHotelExpense);
+    router.post('/',PostHotelExpenses);
+    router.get('/',GetAllHotelExpenses);
+    router.put('/:id',UpdateHotelExpense);
+    router.delete('/:id',DeleteHotelExpense);
 
     module.exports=router;

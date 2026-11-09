@@ -13,7 +13,7 @@ const PostHotelExpenses = async (req, res) => {
             ];
         });
         
-        const sql = `INSERT INTO GuestExpenses (ExpensesType, cost, Description) VALUES ?`;
+        const sql = `INSERT INTO HotelExpenses (ExpensesType, cost, Description) VALUES ?`;
         
         const [hotelExpenses] = await db.promise().query(sql, [Values]);
         
@@ -40,7 +40,7 @@ const GetAllHotelExpenses = async (req, res) => {
                 cost,
                 Description,
                 Date AS ExpenseDate
-            FROM GuestExpenses
+            FROM HotelExpenses
         `;
         
         const [allExpenses] = await db.promise().query(sql);
@@ -73,7 +73,7 @@ const UpdateHotelExpense = async (req, res) => {
         const { ExpensesType, cost, Description } = req.body;
 
         const sql = `
-            UPDATE GuestExpenses 
+            UPDATE HotelExpenses 
             SET ExpensesType = ?, cost = ?, Description = ? 
             WHERE HotelExpenses_Id = ?
         `;
@@ -103,7 +103,7 @@ const DeleteHotelExpense = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const sql = `DELETE FROM GuestExpenses WHERE HotelExpenses_Id = ?`;
+        const sql = `DELETE FROM HotelExpenses WHERE HotelExpenses_Id = ?`;
         const [result] = await db.promise().query(sql, [id]);
 
         if (result.affectedRows === 0) {

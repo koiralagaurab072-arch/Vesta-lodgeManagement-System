@@ -40,7 +40,7 @@ app.use('/guest', GuestRoutes);
 app.use('/activeBooking', ActiveBookingRoutes);
 app.use('/guestPayment', GuestPayment);
 app.use('/guestExpenses', GuestExpenses);
-app.use('/hotelExpensess',hotelExpenses);
+app.use('/hotelExpenses',hotelExpenses);
 
 
 

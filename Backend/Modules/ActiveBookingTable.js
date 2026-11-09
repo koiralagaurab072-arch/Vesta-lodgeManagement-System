@@ -10,6 +10,8 @@ const BookingTable = () => {
         FOREIGN KEY (Room_Id) REFERENCES Room(Room_Id)
     )`;
 
+  
+
     db.query(sql, (err) => {
         if (err) {
             console.log("Error occurred while creating BookingTable:", err.message);

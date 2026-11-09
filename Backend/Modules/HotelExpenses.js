@@ -1,7 +1,7 @@
 const db=require('../db');
 
 const HotelExpensesTable = () => {
-    const sql = `CREATE TABLE IF NOT EXISTS GuestExpenses(
+    const sql = `CREATE TABLE IF NOT EXISTS HotelExpenses(
         HotelExpenses_Id INT PRIMARY KEY AUTO_INCREMENT,
         ExpensesType VARCHAR(100),
         cost INT, 
