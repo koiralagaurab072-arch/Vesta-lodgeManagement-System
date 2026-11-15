@@ -1,6 +1,6 @@
 const db = require('../db');
 
-// Add room
+
 const CreateRoom = async (req, res) => {
     try {
         const data = req.body;
@@ -40,7 +40,7 @@ const CreateRoom = async (req, res) => {
     }
 };
 
-// Retrieve all rooms
+
 const GetAllRoom = async (req, res) => {
     try {
         const sql = `SELECT * FROM Room`;
@@ -59,7 +59,7 @@ const GetAllRoom = async (req, res) => {
     }
 };
 
-// Retrieve single room through room_no
+
 const GetSingleRoom = async (req, res) => {
     try {
         const { RoomNO } = req.params;
@@ -85,32 +85,33 @@ const GetSingleRoom = async (req, res) => {
     }
 };
 
-//  Update room
 const UpdateRoom = async (req, res) => {
     const { id } = req.params;
     const { Room_NO, Room_Price, Room_Type, Room_Status } = req.body;
     const sql = `
-        UPDATE rooms 
-        SET Room_NO = ?,Room_Price=?,Room_Type= ?, Room_Status = ? 
-        WHERE id =?
+        UPDATE Room 
+        SET Room_NO = ?, Room_Price = ?, Room_Type = ?, Room_Status = ? 
+        WHERE Room_Id = ?
     `;
 
     try {
-        const [UpdatedRoom] = await db.promise().query(sql, [Room_NO, Room_Price, Room_Type, Room_Status, id])
-        if (UpdatedRoom.length === 0) {
-            console.log("enter at least one data");
-            return res.status(400).json({
-                message: "Enter at least one data",
-                error: err.message,
-                UpdateRoom: UpdateRoom
-            })
+        const [UpdatedRoom] = await db.promise().query(sql, [Room_NO, Room_Price, Room_Type, Room_Status, id]);
+        if (UpdatedRoom.affectedRows === 0) {
+            return res.status(404).json({
+                message: `Room with id ${id} not found`,
+                UpdatedRoom: null
+            });
         }
+        return res.status(200).json({
+            message: `Room with id ${id} updated successfully`,
+            UpdatedRoom: UpdatedRoom
+        });
     } catch (err) {
         console.error('Internal server error', err);
 
         if (err.name === 'ValidationError') {
             return res.status(400).json({
-                message: 'provide the valid data',
+                message: 'Provide valid data',
                 error: err.message
             });
         }
@@ -126,7 +127,7 @@ const DeleteRoom = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const sql = `DELETE From Room  WHERE id=?`;
+        const sql = `DELETE FROM Room WHERE Room_Id = ?`;
         const [DeleteRoom] = await db.promise().query(sql, [id]);
         if (DeleteRoom.affectedRows === 0) {
             return res.status(404).json({

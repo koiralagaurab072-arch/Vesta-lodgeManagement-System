@@ -3,7 +3,7 @@ const router = express.Router();
 const { PostActiveBooking, GetActiveBookings,GetSingleActiveBooking}=require("../controllers/BookingController");
 
 router.post("/",PostActiveBooking);
-router.get("/",GetSingleActiveBooking);
-router.get("/:Booking_Id",GetActiveBookings);
+router.get("/",GetActiveBookings);
+router.get("/:Booking_Id",GetSingleActiveBooking);
 
 module.exports=router;

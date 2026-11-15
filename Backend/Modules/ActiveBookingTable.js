@@ -6,8 +6,8 @@ const BookingTable = () => {
         Guest_Id INT,
         Room_Id INT,
         CheckInDate DATE DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (Guest_Id) REFERENCES Guest(Guest_Id),
-        FOREIGN KEY (Room_Id) REFERENCES Room(Room_Id)
+        FOREIGN KEY (Guest_Id) REFERENCES Guest(Guest_Id)ON UPDATE CASCADE,
+        FOREIGN KEY (Room_Id) REFERENCES Room(Room_Id)ON UPDATE CASCADE
     )`;
 
   

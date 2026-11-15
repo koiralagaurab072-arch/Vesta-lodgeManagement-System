@@ -48,7 +48,7 @@ const GetAllPayment = async (req, res) => {
     `
         const [GetAllPayment] = await db.promise().query(sql);
         if (GetAllPayment.length === 0) {
-            return res.status(404).json | ({
+            return res.status(404).json ({
                 message: "No payments found",
                 GetAllPayment: null
             })

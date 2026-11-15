@@ -13,7 +13,7 @@ const PaymentTable = () => {
         'Bank Transfer',
         'Khalti'
     ) DEFAULT 'Cash',
-    FOREIGN KEY (Booking_Id) REFERENCES Booking(Booking_Id)
+    FOREIGN KEY (Booking_Id) REFERENCES activebooking(Booking_Id)
   )`;
 
     db.query(sql, (err) => {
