@@ -22,7 +22,7 @@ const CreateRoom = async (req, res) => {
         console.log(`RoomNO ${data.Room_NO} inserted into RoomTable`);
         return res.status(201).json({
             message: `RoomNO ${data.Room_NO} created successfully`,
-            Room: result
+            Room: result.insertId
         });
     } catch (err) {
         console.error("Database or Server Error", err.message);

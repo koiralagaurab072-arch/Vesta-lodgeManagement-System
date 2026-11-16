@@ -19,7 +19,7 @@ const PostHotelExpenses = async (req, res) => {
         
         return res.status(201).json({
             message: "Hotel expenses added successfully",
-            HotelExpenses: hotelExpenses
+            HotelExpenses: hotelExpenses.insertId
         });
     } catch (err) {
         console.log("Internal server error", err.message);

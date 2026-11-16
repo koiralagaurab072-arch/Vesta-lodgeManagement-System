@@ -17,10 +17,11 @@ const postPayment = async (req, res) => {
 
         const sql = `INSERT INTO GuestPayment (Booking_id, Amount, Paymentmethod) VALUES ?`;
 
-        await db.promise().query(sql, [values]);
+        const [payment] =await db.promise().query(sql, [values]);
 
         return res.status(200).json({
-            message: 'Payments added successfully'
+            message: 'Payments added successfully',
+            payment:payment.insertId
         });
 
     } catch (err) {

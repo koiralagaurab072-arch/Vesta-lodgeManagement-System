@@ -3,8 +3,8 @@ const db = require('../../db')
 const CategoryTable = () => {
 
     const sql = `CREATE TABLE IF NOT EXISTS category (
-        id INT PRIMARY KEY AUTO_INCREMENT , 
-        categoryName VARCHAR(30) NOT NULL 
+     Category_Id INT PRIMARY KEY AUTO_INCREMENT,
+    Category_Name VARCHAR(100) NOT NULL UNIQUE
      )`;
 
     db.query(sql, err => {
@@ -17,4 +17,4 @@ const CategoryTable = () => {
     })
 }
 
-module.exports = CategoryTable
+module.exports = CategoryTable;

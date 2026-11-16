@@ -2,9 +2,12 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const db = require('./db');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+const passport = require('./password');
+const { jwtauth } = require('./jwt_auth');
+app.use(passport.initialize());
+
 
 
 const GuestTable = require('./Modules/GuestTable');
@@ -15,13 +18,8 @@ const PaymentTable = require('./Modules/PaymentTable');
 const categoryTable = require('./Modules/inventory/categoryTable');
 const HotelExpenses = require('./Modules/HotelExpensesTable');
 const GuestHistoryTable=require('./Modules/GuestHistorytable');
-
-
-const passport = require('./password');
-const { jwtauth } = require('./jwt_auth');
-app.use(passport.initialize());
-
-
+const ProductTable=require('./Modules/inventory/productTable');
+const inventoryTable=require('./Modules/inventory/inventoryTable')
 
 //room Management
 GuestTable();
@@ -34,6 +32,8 @@ GuestHistoryTable();
 
 //inventory
 categoryTable();
+ProductTable();
+inventoryTable();
 
 
 //routers
@@ -46,6 +46,11 @@ const hotelExpenses=require('./routes/hotelExpenses.route');
 const CheakOut=require('./routes/checkOut.route');
 const GuestHistory=require('./routes/Guesthistry.route');
 const login=require('./routes/login.route')
+const categories=require('./routes/inventory/category.route')
+const product=require('./routes/inventory/products.route')
+const inventory=require('./routes/inventory/inventory.route');
+const DeductInventory=require('./routes/inventory/deductInventory.route')
+
 
 app.use('/login',login);
 app.use('/room', jwtauth, roomRoutes);
@@ -56,9 +61,10 @@ app.use('/guestExpenses', jwtauth, GuestExpenses);
 app.use('/hotelExpenses', jwtauth, hotelExpenses);
 app.use('/checkout', jwtauth, CheakOut);
 app.use('/guesthistory', jwtauth, GuestHistory);
-
-
-
+app.use('/categories',jwtauth,categories);
+app.use('/products',jwtauth,product);
+app.use('/inventory',jwtauth,inventory);
+app.use('/deductProduct',jwtauth,DeductInventory);
 
 
 PORT =process.env.PORT||3000;
