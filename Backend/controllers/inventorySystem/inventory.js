@@ -93,18 +93,28 @@ const DeductInventory = async (req, res) => {
         }
 
         let remainingToDeduct = Deduct_Quantity;
+        
         for (let i = 0; i < batches.length; i++) {
             let batch = batches[i];
             if (remainingToDeduct === 0) break; 
 
+            let quantityTakenFromThisBatch = 0;
+
             if (batch.Quantity <= remainingToDeduct) {
+                quantityTakenFromThisBatch = batch.Quantity;
                 remainingToDeduct -= batch.Quantity;
                 await conn.query(`UPDATE Inventory SET Quantity = 0 WHERE Inventory_Id = ?`, [batch.Inventory_Id]);
             } else {
+                quantityTakenFromThisBatch = remainingToDeduct;
                 const newQuantity = batch.Quantity - remainingToDeduct;
                 remainingToDeduct = 0;
                 await conn.query(`UPDATE Inventory SET Quantity = ? WHERE Inventory_Id = ?`, [newQuantity, batch.Inventory_Id]);
             }
+
+            await conn.query(
+                `INSERT INTO InventoryUsage (Inventory_Id, Product_Id, Quantity_Used) VALUES (?, ?, ?)`,
+                [batch.Inventory_Id, Product_Id, quantityTakenFromThisBatch]
+            );
         }
 
         await conn.commit();
@@ -118,5 +128,39 @@ const DeductInventory = async (req, res) => {
     }
 };
 
+const GetDeductionHistory = async (req, res) => {
+    try {
+  
+        const sql = `
+            SELECT 
+                u.Usage_Id,
+                c.Category_Name,
+                p.Product_Name, 
+                u.Quantity_Used,
+                u.Usage_Date
+            FROM InventoryUsage u
+            INNER JOIN Products p ON u.Product_Id = p.Product_Id
+            INNER JOIN Category c ON p.Category_Id = c.Category_Id
+            ORDER BY u.Usage_Date DESC
+        `;
+        
+        const [history] = await db.promise().query(sql);
 
-module.exports={AddInventory,GetInventory,UpdateInventory,DeleteInventory,DeductInventory};
+        if(history.length === 0){
+            return res.status(200).json({message:"NO items from inventory has been used"})
+        }
+        
+        return res.status(200).json(history);
+        
+    } catch (err) {
+        console.error("Get Deduction History Error:", err.message);
+        return res.status(500).json({ message: "Internal server error", error: err.message });
+    }
+};
+
+
+
+
+
+
+module.exports={AddInventory,GetInventory,UpdateInventory,DeleteInventory,DeductInventory,GetDeductionHistory};

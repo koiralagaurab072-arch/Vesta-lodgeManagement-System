@@ -19,7 +19,7 @@ const GetCategories = async (req, res) => {
     try {
         const [categories] = await db.promise().query(`SELECT * FROM Category`);
         if(categories.length === 0){
-            return res.status(404).json({message:'no categories found'})
+            return res.status(200).json({message:'no categories found'})
         }
         return res.status(200).json(categories);
     } catch (err) {

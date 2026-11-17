@@ -20,7 +20,7 @@ const HotelExpenses = require('./Modules/HotelExpensesTable');
 const GuestHistoryTable=require('./Modules/GuestHistorytable');
 const ProductTable=require('./Modules/inventory/productTable');
 const inventoryTable=require('./Modules/inventory/inventoryTable')
-
+const inventoryUseTable=require('./Modules/inventory/inventoryUses')
 //room Management
 GuestTable();
 RoomTable();
@@ -30,11 +30,12 @@ PaymentTable();
 HotelExpenses();
 GuestHistoryTable();
 
+
 //inventory
 categoryTable();
 ProductTable();
 inventoryTable();
-
+inventoryUseTable();
 
 //routers
 const roomRoutes = require('./routes/room.Routes');
@@ -50,6 +51,7 @@ const categories=require('./routes/inventory/category.route')
 const product=require('./routes/inventory/products.route')
 const inventory=require('./routes/inventory/inventory.route');
 const DeductInventory=require('./routes/inventory/deductInventory.route')
+const InventoryUses=require('./routes/inventory/InventoryusesHistory.route')
 
 
 app.use('/login',login);
@@ -65,6 +67,7 @@ app.use('/categories',jwtauth,categories);
 app.use('/products',jwtauth,product);
 app.use('/inventory',jwtauth,inventory);
 app.use('/deductProduct',jwtauth,DeductInventory);
+app.use('/inventoryUses',jwtauth,InventoryUses);
 
 
 PORT =process.env.PORT||3000;
